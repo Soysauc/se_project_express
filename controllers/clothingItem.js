@@ -6,7 +6,7 @@ const createItem = (req, res) => {
 
   const { name, weather, imageURL } = req.body;
 
-  ClothingItem.create({ name: name, weather: weather, imageUrl: imageURL })
+  ClothingItem.create({ name, weather, imageUrl: imageURL })
     .then((item) => {
       console.log(item);
       res.send({ data: item });
@@ -20,11 +20,18 @@ const getItems = (req, res) => {
     .then((items) => res.status(200).send(items))
     .catch((e) => res.status(500).send({ message: 'error from getItems', e }));
 };
+
 const updateItem = (req, res) => {
   const { itemId } = req.params;
   const { imageURL } = req.body;
 
-  ClothingItem.findByIdAndUpdate(itemId, { $set: { imageURL } })
+  ClothingItem.findByIdAndUpdate(
+    itemId,
+    { $set: { imageUrl: imageURL } },
+    {
+      returnOriginal: false,
+    }
+  )
     .orFail()
     .then((item) => res.status(200).send({ data: item }))
     .catch((e) =>
@@ -38,7 +45,7 @@ const deleteItem = (req, res) => {
   console.log(itemId);
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
-    .then((item) => res.status(204).send({}))
+    .then((item) => res.status(204).send({ item }))
     .catch((e) =>
       res.status(500).send({ message: 'error from deleteItem', e })
     );
