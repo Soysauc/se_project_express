@@ -1,11 +1,11 @@
-const router = require("express").Router();
+const router = require('express').Router();
 
-const clothingItem = require("./clothingItem");
+const clothingItem = require('./clothingItem');
 
-router.use("/items", clothingItem);
+router.use('/items', clothingItem);
 
 router.use((req, res) => {
-  res.status(500).send({ message: "router not found" });
+  res.status(500).send({ message: 'router not found' });
 });
 
 module.exports = router;

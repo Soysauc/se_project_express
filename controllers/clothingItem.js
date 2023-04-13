@@ -1,4 +1,4 @@
-const ClothingItem = require("../models/clothingItem");
+const ClothingItem = require('../models/clothingItem');
 
 const createItem = (req, res) => {
   console.log(req);
@@ -12,13 +12,13 @@ const createItem = (req, res) => {
       res.send({ data: item });
     })
     .catch((e) => {
-      res.status(500).send({ message: "error from CreateItem", e });
+      res.status(500).send({ message: 'error from CreateItem', e });
     });
 };
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
-    .catch((e) => res.status(500).send({ message: "error from getItems", e }));
+    .catch((e) => res.status(500).send({ message: 'error from getItems', e }));
 };
 const updateItem = (req, res) => {
   const { itemId } = req.params;
@@ -28,7 +28,7 @@ const updateItem = (req, res) => {
     .orFail()
     .then((item) => res.status(200).send({ data: item }))
     .catch((e) =>
-      res.status(500).send({ message: "error from updateItem", e })
+      res.status(500).send({ message: 'error from updateItem', e })
     );
 };
 
@@ -40,7 +40,7 @@ const deleteItem = (req, res) => {
     .orFail()
     .then((item) => res.status(204).send({}))
     .catch((e) =>
-      res.status(500).send({ message: "error from deleteItem", e })
+      res.status(500).send({ message: 'error from deleteItem', e })
     );
 };
 module.exports = {
