@@ -1,21 +1,21 @@
-// const mongoose = require('mongoose');
-// const validator = require('validator');
+const mongoose = require('mongoose');
+const validator = require('validator');
 
-// const userSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//     minlength: 2,
-//     maxlength: 30,
-//   },
-//   avatar: {
-//     type: String,
-//     required: true,
-//     validate: {
-//       validator: (value) => validator.isURL(value),
-//       message: 'Must be a valid URL',
-//     },
-//   },
-// });
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 30,
+  },
+  avatar: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (value) => validator.isURL(value),
+      message: 'Must be a valid URL',
+    },
+  },
+});
 
-// module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('users', userSchema);
