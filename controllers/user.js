@@ -1,10 +1,12 @@
 const User = require('../models/user');
 
+const { handleError } = require('../utils/errors');
+
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(200).send(users))
-    .catch((e) => {
-      res.status(400).send({ message: 'Error from getUsers', e });
+    .catch((err) => {
+      handleError(err, req, res);
     });
 };
 
@@ -12,10 +14,10 @@ const getUser = (req, res) => {
   const { userId } = req.params;
 
   User.findById(userId)
-    .orFail()
     .then((item) => res.status(200).send({ data: item }))
-    .catch((e) => {
-      res.status(404).send({ message: 'Error from getUser', e });
+    .catch((err) => {
+      res.send({ message: err.message });
+      handleError(err, req, res);
     });
 };
 
@@ -26,8 +28,8 @@ const createUser = (req, res) => {
     .then((user) => {
       res.send({ data: user });
     })
-    .catch((e) => {
-      res.status(404).send({ message: 'Error from createUser', e });
+    .catch((err) => {
+      handleError(err, req, res);
     });
 };
 

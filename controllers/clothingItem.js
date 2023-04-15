@@ -1,4 +1,5 @@
 const ClothingItem = require('../models/clothingItem');
+const { handleError } = require('../utils/errors');
 
 const createItem = (req, res) => {
   const userId = req.user._id;
@@ -9,13 +10,17 @@ const createItem = (req, res) => {
       res.send({ data: item });
     })
     .catch((e) => {
-      res.status(400).send({ message: 'error from CreateItem', e });
+      handleError(e, res);
+      handleError(e, req, res);
     });
 };
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
-    .catch((e) => res.status(400).send({ message: 'error from getItems', e }));
+    .catch((e) => {
+      handleError(e, res);
+      handleError(e, req, res);
+    });
 };
 
 const updateItem = (req, res) => {
@@ -31,9 +36,10 @@ const updateItem = (req, res) => {
   )
     .orFail()
     .then((item) => res.status(200).send({ data: item }))
-    .catch((e) =>
-      res.status(400).send({ message: 'error from updateItem', e })
-    );
+    .catch((e) => {
+      handleError(e, res);
+      handleError(e, req, res);
+    });
 };
 
 const deleteItem = (req, res) => {
@@ -42,9 +48,10 @@ const deleteItem = (req, res) => {
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
     .then((item) => res.status(204).send({ item }))
-    .catch((e) =>
-      res.status(404).send({ message: 'error from deleteItem', e })
-    );
+    .catch((err) => {
+      handleError(err, res);
+      handleError(err, req, res);
+    });
 };
 
 const likeItem = (req, res) =>
@@ -55,8 +62,10 @@ const likeItem = (req, res) =>
   )
     .orFail()
     .then((item) => res.status(204).send({ item }))
-    .catch((e) => res.status(400).send({ message: 'error from likeItem', e }));
-
+    .catch((err) => {
+      handleError(err, res);
+      handleError(err, req, res);
+    });
 const dislikeItem = (req, res) =>
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
@@ -65,9 +74,10 @@ const dislikeItem = (req, res) =>
   )
     .orFail()
     .then((item) => res.status(204).send({ item }))
-    .catch((e) =>
-      res.status(400).send({ message: 'error from dislikeItem', e })
-    );
+    .catch((err) => {
+      handleError(err, res);
+      handleError(err, req, res);
+    });
 
 module.exports = {
   createItem,
