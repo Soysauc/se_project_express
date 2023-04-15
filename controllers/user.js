@@ -15,7 +15,7 @@ const getUser = (req, res) => {
     .orFail()
     .then((item) => res.status(200).send({ data: item }))
     .catch((e) => {
-      res.status(400).send({ message: 'Error from getUser', e });
+      res.status(404).send({ message: 'Error from getUser', e });
     });
 };
 
@@ -27,7 +27,7 @@ const createUser = (req, res) => {
       res.send({ data: user });
     })
     .catch((e) => {
-      res.status(400).send({ message: 'Error from createUser', e });
+      res.status(404).send({ message: 'Error from createUser', e });
     });
 };
 
