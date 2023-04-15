@@ -20,14 +20,10 @@ const getUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  console.log(req);
-  console.log(req.body);
-
   const { name, avatar } = req.body;
 
   User.create({ name, avatar })
     .then((user) => {
-      console.log(user);
       res.send({ data: user });
     })
     .catch((e) => {
