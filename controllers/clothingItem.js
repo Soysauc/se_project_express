@@ -32,7 +32,7 @@ const updateItem = (req, res) => {
     .orFail()
     .then((item) => res.status(200).send({ data: item }))
     .catch((e) =>
-      res.status(500).send({ message: 'error from updateItem', e })
+      res.status(400).send({ message: 'error from updateItem', e })
     );
 };
 
@@ -55,7 +55,7 @@ const likeItem = (req, res) =>
   )
     .orFail()
     .then((item) => res.status(204).send({ item }))
-    .catch((e) => res.status(404).send({ message: 'error from likeItem', e }));
+    .catch((e) => res.status(400).send({ message: 'error from likeItem', e }));
 
 const dislikeItem = (req, res) =>
   ClothingItem.findByIdAndUpdate(
@@ -66,7 +66,7 @@ const dislikeItem = (req, res) =>
     .orFail()
     .then((item) => res.status(204).send({ item }))
     .catch((e) =>
-      res.status(404).send({ message: 'error from dislikeItem', e })
+      res.status(400).send({ message: 'error from dislikeItem', e })
     );
 
 module.exports = {
