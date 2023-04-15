@@ -15,7 +15,7 @@ const createItem = (req, res) => {
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
-    .catch((e) => res.status(500).send({ message: 'error from getItems', e }));
+    .catch((e) => res.status(400).send({ message: 'error from getItems', e }));
 };
 
 const updateItem = (req, res) => {
@@ -43,7 +43,7 @@ const deleteItem = (req, res) => {
     .orFail()
     .then((item) => res.status(204).send({ item }))
     .catch((e) =>
-      res.status(500).send({ message: 'error from deleteItem', e })
+      res.status(400).send({ message: 'error from deleteItem', e })
     );
 };
 
@@ -55,7 +55,7 @@ const likeItem = (req, res) =>
   )
     .orFail()
     .then((item) => res.status(204).send({ item }))
-    .catch((e) => res.status(500).send({ message: 'error from likeItem', e }));
+    .catch((e) => res.status(400).send({ message: 'error from likeItem', e }));
 
 const dislikeItem = (req, res) =>
   ClothingItem.findByIdAndUpdate(
@@ -66,7 +66,7 @@ const dislikeItem = (req, res) =>
     .orFail()
     .then((item) => res.status(204).send({ item }))
     .catch((e) =>
-      res.status(500).send({ message: 'error from dislikeItem', e })
+      res.status(400).send({ message: 'error from dislikeItem', e })
     );
 
 module.exports = {
