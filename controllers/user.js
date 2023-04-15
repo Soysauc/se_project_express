@@ -11,7 +11,7 @@ const getUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  const { userId } = req.params;
+  const { userId } = req.user._id;
 
   User.findById(userId)
     .then((item) => res.status(200).send({ data: item }))
