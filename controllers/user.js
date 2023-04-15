@@ -4,9 +4,9 @@ const { handleError } = require('../utils/errors');
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.status(200).send(users))
+    .then((data) => res.send({ data }))
     .catch((e) => {
-      handleError(e, req, res);
+      handleError(e, res);
     });
 };
 
@@ -14,10 +14,10 @@ const getUser = (req, res) => {
   const { userId } = req.user._id;
 
   User.findById(userId)
+    .orFail()
     .then((item) => res.status(200).send({ data: item }))
     .catch((e) => {
-      res.send({ message: e.message });
-      handleError(e, req, res);
+      handleError(e, res);
     });
 };
 
@@ -29,7 +29,7 @@ const createUser = (req, res) => {
       res.send({ data: user });
     })
     .catch((e) => {
-      handleError(e, req, res);
+      handleError(e, res);
     });
 };
 

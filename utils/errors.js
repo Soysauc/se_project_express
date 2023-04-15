@@ -9,9 +9,7 @@ const ERROR_CODES = {
 };
 
 const handleError = (err, res) => {
-  if (err.statusCode === 'OK' || err.statusCode === 'Created') {
-    res.status(err.statusCode).send({ message: `${err.statusCode} Success` });
-  } else if (err.name === 'ValidationError' || err.name === 'CastError') {
+  if (err.name === 'ValidationError' || err.name === 'CastError') {
     res
       .status(ERROR_CODES.BadRequest)
       .send({ message: `${ERROR_CODES.BadRequest} Invalid input` });
