@@ -9,7 +9,7 @@ const createItem = (req, res) => {
       res.send({ data: item });
     })
     .catch((e) => {
-      res.status(500).send({ message: 'error from CreateItem', e });
+      res.status(400).send({ message: 'error from CreateItem', e });
     });
 };
 const getItems = (req, res) => {
