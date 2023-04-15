@@ -4,13 +4,14 @@ const { handleError } = require('../utils/errors');
 const createItem = (req, res) => {
   const userId = req.user._id;
 
-  const { name, weather, imageURL } = req.body;
+  const { name, weather, imageUrl } = req.body;
 
-  ClothingItem.create({ name, weather, imageURL, owner: userId })
+  ClothingItem.create({ name, weather, imageURL: imageUrl, owner: userId })
     .then((item) => {
-      res.send({ data: item });
+      res.status(201).send({ data: item });
     })
     .catch((e) => {
+      console.log(e);
       handleError(e, res);
     });
 };
