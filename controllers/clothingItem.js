@@ -24,24 +24,6 @@ const getItems = (req, res) => {
     });
 };
 
-// const updateItem = (req, res) => {
-//   const { itemId } = req.params;
-//   const { imageURL } = req.body;
-
-//   ClothingItem.findByIdAndUpdate(
-//     itemId,
-//     { $set: { imageUrl: imageURL } },
-//     {
-//       returnOriginal: false,
-//     }
-//   )
-//     .orFail()
-//     .then((item) => res.status(200).send({ data: item }))
-//     .catch((e) => {
-//       handleError(e, res);
-//     });
-// };
-
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
 
