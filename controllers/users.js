@@ -6,13 +6,21 @@ const JWT_SECRET = require('../utils/config');
 
 const { handleError } = require('../utils/errors');
 
-// const getUsers = (req, res) => {
-//   User.find({})
-//     .then((data) => res.send({ data }))
-//     .catch((e) => {
-//       handleError(e, res);
-//     });
-// };
+// UPDATE
+updateUser = (req, res) => {
+  const { name, avatar, userId } = req.params;
+
+  User.findByIdAndUpdate(
+    { userId },
+    { name, avatar },
+    { new: true, runValidators: true }
+  )
+    .then((user) => res.status(200).send({ user }))
+    .catch((err) => {
+      handleError(err, res);
+    });
+};
+
 const userLogin = (req, res) => {
   const { email, password } = req.body;
 
@@ -71,8 +79,9 @@ const createUser = (req, res) => {
     });
 };
 module.exports = {
-  getUsers,
+  // getUsers,
   createUser,
   getUser,
   userLogin,
+  updateUser,
 };

@@ -26,11 +26,30 @@ const userSchema = new mongoose.Schema({
     message: 'Must be a valid email',
   },
   password: {
-    required: [true, 'Please enter a password'],
+    required: [true, 'Please enter your password'],
     type: String,
-    minlength: [8, 'Password must be at least 8 characters'],
+    minlength: [8, 'Password must be 8 characters or more'],
     select: false,
   },
 });
+//step 9
+userSchema.statics.findUserByCredentials = function findUserByCredentials(
+  email,
+  password
+) {
+  return this.findOne({ email })
+    .select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('Incorrect email or password'));
+      }
+      return bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          return Promise.reject(new Error('Incorrect email or password'));
+        }
+        return user;
+      });
+    });
+};
 
 module.exports = mongoose.model('users', userSchema);

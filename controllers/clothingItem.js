@@ -26,10 +26,17 @@ const getItems = (req, res) => {
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
-
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
-    .then((item) => res.status(200).send({ item }))
+    .then(() => res.status(204).send({}))
+    .then((item) => {
+      if (item.owner.equals(req.userId)) {
+        return item.remove(() => res.send({ clothingItem: item }));
+      }
+      return res.status(403).send({
+        message: 'Forbidden',
+      });
+    })
     .catch((err) => {
       handleError(err, res);
     });
@@ -58,10 +65,26 @@ const dislikeItem = (req, res) =>
       handleError(err, res);
     });
 
+const updateItem = (req, res) => {
+  const { itemId } = req.params;
+  const { imageURL } = req.body;
+
+  ClothingItem.findByIdAndUpdate(itemId, {
+    $set: { imageURL },
+    new: true,
+    runValidators: true,
+  })
+    .orFail()
+    .then((item) => res.status(200).send({ data: item }))
+    .catch((e) => {
+      handleError(e, res);
+    });
+};
+
 module.exports = {
   createItem,
   getItems,
-  // updateItem,
+  updateItem,
   deleteItem,
   likeItem,
   dislikeItem,
