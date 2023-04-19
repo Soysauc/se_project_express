@@ -1,13 +1,11 @@
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-
 const JWT_SECRET = require('../utils/config');
-
 const { handleError } = require('../utils/errors');
 
 // UPDATE
-updateUser = (req, res) => {
+const updateUser = (req, res) => {
   const { name, avatar, userId } = req.params;
 
   User.findByIdAndUpdate(
@@ -65,17 +63,15 @@ const createUser = (req, res) => {
           avatar,
           email,
           password: hash,
-        }).then((user) =>
-          res.setHeader('Content-Type', 'application/json').status(201).send({
-            name: user.name,
-            avatar: user.avatar,
-            email: user.email,
-          })
-        );
+        })
+          .then(() => res.send({ name, avatar, email }))
+          .catch((err) => {
+            handleError(err, req, res);
+          });
       });
     })
     .catch((err) => {
-      handleError(err, res);
+      handleError(err, req, res);
     });
 };
 module.exports = {

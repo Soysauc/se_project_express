@@ -2,9 +2,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../utils/config');
 const { handleAuthError } = require('../utils/errors');
 
-const extractToken = (header) => {
-  return header.replace('Bearer ', '');
-};
+const extractToken = (header) => header.replace('Bearer ', '');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
