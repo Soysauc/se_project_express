@@ -31,8 +31,12 @@ const handleError = (err, res) => {
     });
   }
 };
+const handleAuthError = (res) => {
+  res.status(ERROR_CODES.Unauthorized).send({ message: 'Authorization Error' });
+};
 
 module.exports = {
   ERROR_CODES,
   handleError,
+  handleAuthError,
 };
