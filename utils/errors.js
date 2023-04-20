@@ -34,6 +34,8 @@ const handleError = (err, req, res) => {
     res.status(ERROR_CODES.Conflict).send({
       message: `${ERROR_CODES.Conflict} That email address is already associated with an account`,
     });
+  } else if (err.name === 'CastError') {
+    res.status(400).send({ message: 'Invalid ID' });
   } else {
     res.status(ERROR_CODES.ServerError).send({
       message: `${ERROR_CODES.ServerError} Something went wrong`,
