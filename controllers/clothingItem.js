@@ -11,34 +11,33 @@ const createItem = (req, res) => {
       res.status(201).send({ data: item });
     })
     .catch((e) => {
-      handleError(e, res);
+      handleError(e, req, res);
     });
 };
 const getItems = (req, res) => {
   ClothingItem.find({})
-    .then((items) => {
-      res.status(200).send(items);
+    .then((data) => {
+      res.send({ data });
     })
     .catch((e) => {
-      handleError(e, res);
+      handleError(e, req, res);
     });
 };
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
-  ClothingItem.findByIdAndDelete(itemId)
+  ClothingItem.findById(itemId)
     .orFail()
-    .then(() => res.status(204).send({}))
     .then((item) => {
-      if (item.owner.equals(req.userId)) {
-        return item.remove(() => res.send({ clothingItem: item }));
+      if (item.owner.equals(req.user._id)) {
+        return item.deleteOne().then(() => res.send({ clothingItem: item }));
       }
       return res.status(403).send({
         message: 'Forbidden',
       });
     })
     .catch((err) => {
-      handleError(err, res);
+      handleError(err, req, res);
     });
 };
 
@@ -49,9 +48,9 @@ const likeItem = (req, res) =>
     { new: true }
   )
     .orFail()
-    .then((item) => res.status(200).send({ data: item }))
-    .catch((err) => {
-      handleError(err, res);
+    .then((item) => res.send({ data: item }))
+    .catch((e) => {
+      handleError(e, req, res);
     });
 const dislikeItem = (req, res) =>
   ClothingItem.findByIdAndUpdate(
@@ -60,9 +59,9 @@ const dislikeItem = (req, res) =>
     { new: true }
   )
     .orFail()
-    .then((item) => res.status(200).send({ data: item }))
-    .catch((err) => {
-      handleError(err, res);
+    .then((item) => res.send({ data: item }))
+    .catch((e) => {
+      handleError(e, req, res);
     });
 
 const updateItem = (req, res) => {
@@ -75,9 +74,9 @@ const updateItem = (req, res) => {
     runValidators: true,
   })
     .orFail()
-    .then((item) => res.status(200).send({ data: item }))
+    .then((item) => res.send({ data: item }))
     .catch((e) => {
-      handleError(e, res);
+      handleError(e, req, res);
     });
 };
 
