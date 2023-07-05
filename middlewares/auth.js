@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../utils/config');
 const { handleAuthError } = require('../utils/errors');
 
-const extractToken = (header) => header.replace('Bearer ', '');
+// const extractToken = (header) => header.replace('Bearer ', '');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   if (!authorization || !authorization.startsWith('Bearer ')) {
     handleAuthError(res);
   }
-  const token = extractToken(authorization);
+  const token = authorization.replace('Bearer ', '');
   let payload;
   try {
     payload = jwt.verify(token, JWT_SECRET);
@@ -18,5 +18,5 @@ module.exports = (req, res, next) => {
     handleAuthError(res);
   }
   req.user = payload;
-  return next();
+  next();
 };
